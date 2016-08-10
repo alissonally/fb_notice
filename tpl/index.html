@@ -1,0 +1,24 @@
+<h1>Comentários do Facebook</h1>
+<ul>
+    {{#fb}}
+    <li>{{comentario}}</li>
+    {{/fb}}
+</ul>
+
+<h1>Comentários do Facebook</h1>
+	<table id="table-comments">
+		<tr>
+			<th>Nome</th>
+			<th>Email</th>
+			<th>Comentário</th>
+			<th>Data</th>
+		</tr>
+		<tr>
+		 {{#fb}}
+			<td>{{user}}</td>
+			<td>{{email}}</td>
+			<td>{{comentario}}</td>
+			<td>{{date}}</td>
+		 {{/fb}}
+		</tr>
+	</table>

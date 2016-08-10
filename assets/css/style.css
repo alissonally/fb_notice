@@ -1,0 +1,12 @@
+.fixed .column-author-fb {
+	width: 30% !important;
+}
+
+.fixed .column-posts {
+	width: 30% !important;
+}
+
+#toplevel_page_comentarios_fb .dashicons-admin-generic:before {
+  content: "\f305" !important;
+  font-size: 24px !important;
+}
