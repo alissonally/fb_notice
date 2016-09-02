@@ -9,53 +9,57 @@ if (NoticeCont.is_singular) {
             
             FB.init({
                 appId: '104968829952230',
-                status: true,
+                status: false,
                 xfbml: true,
                 version:'v2.7'
             });
             $('#loginbutton,#feedbutton').removeAttr('disabled');
             FB.Event.subscribe('comment.remove', function(response) {
-                //console.log(response);
+                console.log(response);
                 callback_comment_face_remove(response);
             });
             FB.Event.subscribe('comment.create', function(response) {
-
+            	//console.log(response);
                 callback_comment_face_create(response);
             });
         });
 
         function callback_comment_face_create(comment) {
-          
-          FB.api(
-            '/'+comment.commentID +'?access_token=EAACEdEose0cBABp2ZCWAIjs7YaZBfFxpwmwtMosmKdX958uoDjVp1jdO76lZBZBs8IZAMGjvPWCseZAAR98N8hgqXwxyeW88r9lCZBmLacpEt2ahMMa9QdtmZBB8g4jKW8RYnYiWFyG5aCkV2hXPjFtayvbgLkHT8VhhDb2i8aKtDgZDZD',
-            function(response) {
-                 var ajaxurl = NoticeCont.adminpath + 'admin-ajax.php',
-                  dados = {
-                      action: 'FB_Notice_comment',
-                      comentario: response.message,
-                      comentarioID: response.id,
-                      post: NoticeCont.post,
-                      autor: response.from.name,
-                      // autorEmail: userRow.email,
-                      autorID: response.from.id
-                      // autorImg: userRow.pic_small,
-                      // autorUrl: userRow.profile_url,
-                  };
-                $.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: dados,
-                });
-            }
-          );
-          FB.api(
-            '/fql',
-            'GET',
-            {},
-            function(rr) {
-                console.log(rr);
-            }
-          );
+          	console.log(comment);
+          	FB.api('/'+comment.href, function(response) {
+				console.log(response);
+		    });
+          // FB.api(
+          //   '/'+comment.commentID +'?access_token=EAACEdEose0cBABp2ZCWAIjs7YaZBfFxpwmwtMosmKdX958uoDjVp1jdO76lZBZBs8IZAMGjvPWCseZAAR98N8hgqXwxyeW88r9lCZBmLacpEt2ahMMa9QdtmZBB8g4jKW8RYnYiWFyG5aCkV2hXPjFtayvbgLkHT8VhhDb2i8aKtDgZDZD',
+          //   function(response) {
+          //        console.log(response);
+          //        var ajaxurl = NoticeCont.adminpath + 'admin-ajax.php',
+          //         dados = {
+          //             action: 'FB_Notice_comment',
+          //             comentario: response.message,
+          //             comentarioID: response.id,
+          //             post: NoticeCont.post,
+          //             autor: response.from.name,
+          //             // autorEmail: userRow.email,
+          //             autorID: response.from.id
+          //             // autorImg: userRow.pic_small,
+          //             // autorUrl: userRow.profile_url,
+          //         };
+          //       $.ajax({
+          //           type: 'POST',
+          //           url: ajaxurl,
+          //           data: dados,
+          //       });
+          //   }
+          // );
+          // FB.api(
+          //   '/fql',
+          //   'GET',
+          //   {},
+          //   function(rr) {
+          //       console.log(rr);
+          //   }
+          // );
           // var commentQuery = FB.Data.query("SELECT text, fromid FROM comment WHERE post_fbid='" + response.commentID + "' AND object_id IN (SELECT comments_fbid FROM link_stat WHERE url='" + response.href + "')");
           // var userQuery = FB.Data.query("SELECT name, uid, pic_small, email, profile_url FROM user WHERE uid in (select fromid from {0})", commentQuery);
 

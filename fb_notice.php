@@ -139,6 +139,7 @@ function listar_comentarios_fb(){
     echo '</form></div>'; 
 }
 
+require_once __DIR__ . '/libs/Facebook/autoload.php';
 function notice_includes_public() {
     //Estilos
     if(is_admin())  
@@ -198,3 +199,43 @@ function delete_comment_fb_admin(){
     wp_die();
 }
 add_action( 'wp_ajax_FB_notice_comment_delete_admin', 'delete_comment_fb_admin' );
+
+
+function teste_fb(){
+    $fb = new Facebook\Facebook([
+      'app_id' => '104968829952230',
+      'app_secret' => '5b1c33ebdb5d38f469e944513cdf129e',
+      'default_graph_version' => 'v2.5',
+    ]);
+
+    $helper = $fb->getCanvasHelper();
+    var_dump($helper);
+    try {
+      $accessToken = $helper->getAccessToken();
+    } catch(Facebook\Exceptions\FacebookResponseException $e) {
+      // When Graph returns an error
+      echo 'Graph returned an error: ' . $e->getMessage();
+      exit;
+    } catch(Facebook\Exceptions\FacebookSDKException $e) {
+      // When validation fails or other local issues
+      echo 'Facebook SDK returned an error: ' . $e->getMessage();
+      exit;
+    }
+
+    if (! isset($accessToken)) {
+      echo 'No OAuth data could be obtained from the signed request. User has not authorized your app yet.';
+      exit;
+    }
+
+    // Logged in
+    echo '<h3>Signed Request</h3>';
+    var_dump($helper->getSignedRequest());
+
+    echo '<h3>Access Token</h3>';
+    var_dump($accessToken->getValue());
+    //var_dump($fb->getUser());
+
+    die();
+}
+add_action( 'wp_ajax_tfb', 'teste_fb' );
+add_action( 'wp_ajax_nopriv_tfb', 'teste_fb' );
